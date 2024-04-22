@@ -1,0 +1,19 @@
+---
+import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+import fs from "node:fs/promises";
+
+const path = "./src/content/docs";
+const dirs = await fs.readdir(path);
+const subDirectories = [];
+
+for (const file of dirs) {
+  const stat = await fs.stat(path + "/" + file);
+  if (stat.isDirectory()) {
+    subDirectories.push(file);
+  }
+}
+---
+
+<CardGrid stagger>
+  {subDirectories.map((tool) => <LinkCard title={tool} href={`/${tool}`} />)}
+</CardGrid>
