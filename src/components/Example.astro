@@ -1,35 +1,34 @@
 ---
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-import { Code } from "astro/components";
-import { readdir } from "node:fs/promises";
+import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
 import { readFile } from "node:fs/promises";
+import {glob} from "glob"
 
 const { slug } = Astro.params;
+const lastPart = slug?.substring(slug.lastIndexOf('/') + 1);
 
-const examples = [];
-try {
-  const files = await readdir(`./src/content/docs/${slug}/`);
-  const filtered = files.filter((file) => file.includes(".js"));
 
-  for (const file of filtered) {
-    const content = await readFile(`./src/content/docs/${slug}/${file}`, {
-      encoding: "utf8",
-    });
-    examples.push({ file, content });
+
+const jsfiles = await glob(`./src/content/docs/examples/*/${lastPart}.js`)
+
+async function loadFiles(jsfiles:any) {
+    const fileContents = await Promise.all(jsfiles.map(async (file:any) => {
+      const content = await readFile(file, { encoding: 'utf8' });
+      const path = file.match(/examples\\([^\\]+)\\/)[1];
+      return { path, content };
+    }));
+    return fileContents;
   }
-} catch (err) {
-  console.error(err);
-}
+
+const loadF = await loadFiles(jsfiles)
 ---
+{
+  loadF.map((file) => {
+    return (
+    <>
+      <h2>{file.path}</h2>
+      <Code code={file.content} lang="js" title={file.path}/>
+    </>
+    )
+  })
+}
 
-<Tabs>
-  {
-    examples.map((example) => {
-      return (
-        <TabItem label={example.file} icon="star">
-          <Code code={example.content} lang="js" />
-        </TabItem>
-      );
-    })
-  }
-</Tabs>
