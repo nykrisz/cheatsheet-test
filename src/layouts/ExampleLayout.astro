@@ -1,0 +1,20 @@
+---
+import { Code } from "@astrojs/starlight/components";
+import { getCollection } from "astro:content";
+
+const { slug } = Astro.params;
+const lastPart = slug?.substring(slug.lastIndexOf("/") + 1);
+
+const examples = await getCollection("docs");
+const regex = new RegExp(`^examples\/([^/]+)\/${lastPart}$`);
+const filteredExamples = examples.filter((post) => {
+  return post.slug.includes(`examples/${lastPart}`) || post.slug.match(regex);
+});
+---
+
+{
+  filteredExamples.map((ex) => {
+    return <Code code={ex.body} lang="js" title={ex.data.title} />;
+  })
+}
+<slot />
