@@ -1,34 +1,37 @@
 ---
-import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
+import { Code } from "@astrojs/starlight/components";
 import { readFile } from "node:fs/promises";
-import {glob} from "glob"
+import { glob } from "glob";
 
 const { slug } = Astro.params;
-const lastPart = slug?.substring(slug.lastIndexOf('/') + 1);
+const { name } = Astro.props;
 
+const lastPart = slug?.substring(slug.lastIndexOf("/") + 1);
 
+const jsfiles = await glob(`./src/content/docs/examples/*/${lastPart}.js`);
+const forTools = await glob(`./src/content/docs/examples/${name}/*.js`);
 
-const jsfiles = await glob(`./src/content/docs/examples/*/${lastPart}.js`)
-
-async function loadFiles(jsfiles:any) {
-    const fileContents = await Promise.all(jsfiles.map(async (file:any) => {
-      const content = await readFile(file, { encoding: 'utf8' });
+async function loadFiles(jsfiles: any) {
+  const fileContents = await Promise.all(
+    jsfiles.map(async (file: any) => {
+      const content = await readFile(file, { encoding: "utf8" });
       const path = file.match(/examples\\([^\\]+)\\/)[1];
       return { path, content };
-    }));
-    return fileContents;
-  }
+    }),
+  );
+  return fileContents;
+}
 
-const loadF = await loadFiles(jsfiles)
+const loadF = await loadFiles(jsfiles.concat(forTools));
 ---
+
 {
   loadF.map((file) => {
     return (
-    <>
-      <h2>{file.path}</h2>
-      <Code code={file.content} lang="js" title={file.path}/>
-    </>
-    )
+      <>
+        <h2>{file.path}</h2>
+        <Code code={file.content} lang="js" title={file.path} />
+      </>
+    );
   })
 }
-
