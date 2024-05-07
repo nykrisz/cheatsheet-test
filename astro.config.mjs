@@ -40,6 +40,10 @@ export default defineConfig({
           label: "Home",
           link: "/",
         },
+        {
+          label: "Contribution",
+          link: "/contribution",
+        },
         ...myobj,
       ],
     }),
