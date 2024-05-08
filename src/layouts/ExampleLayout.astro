@@ -8,6 +8,7 @@ const content = await loadFileContent(slug);
 ---
 
 <BaseLayout>
+  <slot />
   {
     content.map(({ path, content }) => {
       return (
@@ -18,5 +19,5 @@ const content = await loadFileContent(slug);
       );
     })
   }
-  <slot />
+
 </BaseLayout>

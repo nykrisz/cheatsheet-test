@@ -6,6 +6,8 @@ import LastUpdated from "@astrojs/starlight/components/LastUpdated.astro";
 import Pagination from "@astrojs/starlight/components/Pagination.astro";
 
 const version = import.meta.env.PUBLIC_VERSION;
+const githubLink = import.meta.env.PUBLIC_GITHUB;
+const license = import.meta.env.PUBLIC_LICENSE;
 ---
 
 <footer>
@@ -14,7 +16,7 @@ const version = import.meta.env.PUBLIC_VERSION;
     <LastUpdated {...Astro.props} />
   </div>
   <Pagination {...Astro.props} />
-  <p>{version}</p>
+  <p>Copyright © 2023- Idea Pool Community. Distributed by an <a href={license}>CC BY-NC-ND 4.0</a> license. Idea Pool <a href={githubLink}>@GitHub</a> {version}</p>
 </footer>
 
 <style>
@@ -28,5 +30,8 @@ const version = import.meta.env.PUBLIC_VERSION;
   }
   .meta > :global(p:only-child) {
     margin-inline-start: auto;
+  }
+  p {
+    padding-top: 10%;
   }
 </style>
