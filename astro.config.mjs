@@ -27,6 +27,9 @@ export default defineConfig({
         },
         ...sidebarGroups,
       ],
+      components: {
+        Footer: './src/components/Footer.astro',
+      },
     }),
   ],
 });
