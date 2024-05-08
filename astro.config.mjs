@@ -11,10 +11,10 @@ export default defineConfig({
     starlight({
       title: "My Docs",
       editLink: {
-        baseUrl: "https://github.com/withastro/starlight/edit/main/docs/",
+        baseUrl: "https://github.com/idea-pool/js-assertion-cheat-sheet-astro/edit/main/docs/",
       },
       social: {
-        github: "https://github.com/withastro/starlight",
+        github: "https://github.com/idea-pool",
       },
       sidebar: [
         {
