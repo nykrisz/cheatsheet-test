@@ -1,0 +1,26 @@
+---
+const socials = [
+  { platform: "twitter", username: "astrodotbuild" },
+  { platform: "github", username: "withastro" },
+  { platform: "youtube", username: "astrodotbuild" },
+];
+
+const version = import.meta.env.PUBLIC_VERSION;
+---
+
+<style>
+  footer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+</style>
+
+<footer>
+  {
+    socials.map(({ platform, username }) => (
+      <a href={`https://www.${platform}.com/${username}`}>{platform}</a>
+    ))
+  }
+  <p>Version: {version}</p>
+</footer>

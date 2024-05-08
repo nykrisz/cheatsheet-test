@@ -1,42 +1,22 @@
 ---
-import { Code } from "@astrojs/starlight/components";
-import { readFile } from "node:fs/promises";
-import { glob } from "glob";
+import { Code } from "astro:components";
+import { loadFileContent } from "../scripts/loadJsContent";
+import BaseLayout from "./BaseLayout.astro";
 
 const { slug } = Astro.params;
-
-const lastPart = slug?.substring(slug.lastIndexOf("/") + 1);
-
-const jsfiles = await glob(`./src/content/docs/examples/*/*.js`);
-
-const regex = new RegExp(`^examples\/([^/]+)\/${lastPart}$`);
-async function loadFiles(jsfiles: any) {
-  const fileContents = await Promise.all(
-    jsfiles
-      .filter(
-        (fileName: any) =>
-          fileName.toLowerCase().includes(lastPart) || fileName.match(regex),
-      )
-      .map(async (file: any) => {
-        const content = await readFile(file, { encoding: "utf8" });
-        const path = file.match(/examples\\([^\\]+)\\/)[1];
-        return { path, content };
-      }),
-  );
-  return fileContents;
-}
-
-const loadF = await loadFiles(jsfiles);
+const content = await loadFileContent(slug);
 ---
 
-{
-  loadF.map((file) => {
-    return (
-      <>
-        <h2>{file.path}</h2>
-        <Code code={file.content} lang="js" title={file.path} />
-      </>
-    );
-  })
-}
-<slot />
+<BaseLayout>
+  {
+    content.map(({ path, content }) => {
+      return (
+        <>
+          <h2>{path}</h2>
+          <Code code={content} lang="js" title={path} />
+        </>
+      );
+    })
+  }
+  <slot />
+</BaseLayout>

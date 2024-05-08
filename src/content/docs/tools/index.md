@@ -1,6 +1,7 @@
 ---
 title: Tools in general
 description: Description of tools
+layout: ../../../layouts/BaseLayout.astro
 ---
 
 Duis venenatis et dui eget lobortis. Pellentesque aliquet pretium tincidunt. Nam pulvinar eleifend felis, sit amet porttitor velit malesuada eu. Quisque porttitor feugiat justo eu semper. Integer pharetra accumsan rhoncus. Vestibulum volutpat consectetur suscipit. Etiam nec massa posuere, ultricies metus at, condimentum nisi. Etiam ut ultrices eros, et feugiat mi. Aliquam vitae volutpat metus. Nulla venenatis erat sit amet ante vehicula porta. Duis ultricies metus a euismod sollicitudin. Etiam tortor arcu, posuere vitae urna in, viverra suscipit dolor. Donec posuere lacus elit, id sagittis nulla pellentesque at. Praesent placerat fermentum pharetra.
